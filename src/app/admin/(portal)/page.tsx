@@ -1,8 +1,20 @@
 import Link from "next/link";
 import { Package, ShoppingCart, Receipt, AlertTriangle } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { isDatabaseConfigured } from "@/lib/db-ready";
+
+const emptyStats = {
+  totalProducts: 0,
+  onlineRevenue: 0,
+  offlineRevenue: 0,
+  totalRevenue: 0,
+  pendingOrders: 0,
+  lowStock: [] as { name: string; quantity: number; sku: string }[],
+};
 
 async function getStats() {
+  if (!isDatabaseConfigured()) return emptyStats;
+
   const [products, orders, posSales, lowStock] = await Promise.all([
     prisma.product.count(),
     prisma.order.findMany({ select: { total: true, status: true } }),

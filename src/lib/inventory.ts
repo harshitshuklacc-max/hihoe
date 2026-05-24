@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+import { isDatabaseConfigured } from "./db-ready";
 import type { SaleChannel } from "@prisma/client";
 
 export type StockUpdatePayload = {
@@ -86,6 +87,8 @@ export async function getPublicProducts(filters?: {
   trending?: boolean;
   newArrival?: boolean;
 }) {
+  if (!isDatabaseConfigured()) return [];
+
   const products = await prisma.product.findMany({
     where: {
       isActive: true,
