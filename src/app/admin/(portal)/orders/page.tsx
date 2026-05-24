@@ -29,7 +29,9 @@ export default function AdminOrdersPage() {
     load();
     const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001");
     socket.on("order:update", () => load());
-    return () => socket.disconnect();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   async function updateStatus(id: string, status: string, paymentStatus?: string) {

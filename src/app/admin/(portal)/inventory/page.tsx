@@ -29,7 +29,9 @@ export default function InventoryPage() {
     load();
     const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001");
     socket.on("inventory:update", () => load());
-    return () => socket.disconnect();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   async function scanBarcode(code?: string) {

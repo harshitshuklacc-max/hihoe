@@ -72,9 +72,9 @@ export function serializeProduct(p: {
     inStock: !outOfStock,
     categoryName: p.category?.name,
     brandName: p.brand?.name,
-    artNo: p.artNo,
-    color: p.color,
-    busyBcn: p.busyBcn,
+    artNo: p.artNo ?? undefined,
+    color: p.color ?? undefined,
+    busyBcn: p.busyBcn ?? undefined,
   };
 }
 
